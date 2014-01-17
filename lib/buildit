@@ -4,6 +4,13 @@
 # running this script.  If you set $CXX, that will be used to compile
 # the library.  Otherwise we'll use clang++.
 
+if [ "$#" -lt 1 ]
+then
+  echo "You need to tell me where the libc++ include folder is"
+  echo "usage : buildit <libc++_include_dir>"
+  exit 1
+fi
+
 set -e
 
 if [ `basename $(pwd)` != "lib" ]
@@ -27,7 +34,7 @@ then
   RC_ProjectSourceVersion=1
 fi
 
-EXTRA_FLAGS="-std=c++11 -stdlib=libc++ -fstrict-aliasing -Wstrict-aliasing=2 \
+EXTRA_FLAGS="-std=c++11 -stdlib=libc++ -I$1 -fstrict-aliasing -Wstrict-aliasing=2 \
              -Wsign-conversion -Wshadow -Wconversion -Wunused-variable \
              -Wmissing-field-initializers -Wchar-subscripts -Wmismatched-tags \
              -Wmissing-braces -Wshorten-64-to-32 -Wsign-compare \
